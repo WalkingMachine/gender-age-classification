@@ -26,15 +26,18 @@ from build_predicator import *
 import json
 import time
 import matplotlib.pyplot as plt
+import rospkg
 
 RESIZE_FINAL = 227
 GENDER_LIST =['M','F']
 AGE_LIST = ['(0, 2)','(4, 6)','(8, 12)','(15, 20)','(25, 32)','(38, 43)','(48, 53)','(60, 100)']
 MAX_BATCH_SZ = 128
 
-MODEL_DIR="ageWeights"
-genderpath='genderWeights/testsave.meta'
-genderckp='genderWeights/'
+rospack = rospkg.RosPack()
+
+MODEL_DIR=rospack.get_path('gender_age_service')+"/src/ageWeights"
+genderpath=rospack.get_path('gender_age_service')+'/src/genderWeights/testsave.meta'
+genderckp=rospack.get_path('gender_age_service')+'/src/genderWeights/'
 CLASS_TYPE='age'
 #FILENAME="/home/olivier/Desktop/age_estimation2/test2/image/olivier.jpg"
 TARGET=''
