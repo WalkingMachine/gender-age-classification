@@ -34,6 +34,8 @@ def prediction(image_message, loaded_model, g1):
     if len(boxes) != 0:
         listImg = getFacesList(image, boxes)
         listPrediction = g1.classify_age(listImg)
+    else:
+        listPrediction = None
 
     print listPrediction
     return listPrediction

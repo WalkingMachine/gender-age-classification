@@ -38,10 +38,14 @@ class NodePrediction(object):
         listPrediction = prediction_age_gender.prediction(image_message, self.loaded_model, self.g1)
 
         resp = GenderPredictionResponse()
-        resp.ageRange = listPrediction[0][1]
-        resp.probAge = listPrediction[0][2]
-        resp.probFemale = listPrediction[0][3][0]
-        resp.probMale = listPrediction[0][3][1]
+        if listPrediction != None:
+            resp.ageRange = listPrediction[0][1]
+            resp.probAge = listPrediction[0][2]
+            resp.probFemale = listPrediction[0][3][0]
+            resp.probMale = listPrediction[0][3][1]
+        else:
+            print "Aucun visage détécté"
+
         return resp
 
     def __init__(self):
