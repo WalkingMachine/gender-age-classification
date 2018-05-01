@@ -26,15 +26,18 @@ from build_predicator import *
 import json
 import time
 import matplotlib.pyplot as plt
+import rospkg
 
 RESIZE_FINAL = 227
 GENDER_LIST =['M','F']
 AGE_LIST = ['(0, 2)','(4, 6)','(8, 12)','(15, 20)','(25, 32)','(38, 43)','(48, 53)','(60, 100)']
 MAX_BATCH_SZ = 128
 
-MODEL_DIR="ageWeights"
-genderpath='genderWeights/testsave.meta'
-genderckp='genderWeights/'
+rospack = rospkg.RosPack()
+
+MODEL_DIR=rospack.get_path('gender_age_service')+"/src/ageWeights"
+genderpath=rospack.get_path('gender_age_service')+'/src/genderWeights/testsave.meta'
+genderckp=rospack.get_path('gender_age_service')+'/src/genderWeights/'
 CLASS_TYPE='age'
 #FILENAME="/home/olivier/Desktop/age_estimation2/test2/image/olivier.jpg"
 TARGET=''
@@ -45,6 +48,8 @@ SINGLE_LOOK=True
 FACE_DETECTION_MODEL=''
 FACE_DETECTION_TYPE='cascade'
 
+
+# noinspection PyInterpreter
 class Graph(object):
 
     def classify_age(self,image_files):
@@ -55,7 +60,6 @@ class Graph(object):
         feature=self.feature
         writer=self.writer
         listPrediction=[]
-        listPrediction=[]
         try:
             num_batches = int(math.ceil(len(image_files) / 128))
             #pg = ProgressBar(num_batches)
@@ -63,7 +67,7 @@ class Graph(object):
                 start_offset = j * 128
                 end_offset = min((j + 1) * 128, len(image_files))
                 batch_image_files = image_files[start_offset:end_offset]
-                image_batch = make_multi_image_batch(batch_image_files, coder)
+		image_batch = make_multi_image_batch(batch_image_files, coder)
                 batch_results,featureData = self._sess.run([softmax_output,feature], feed_dict={images:image_batch.eval(session=self._sess_default)})
                 batch_predictionG = self._sessGender.run(self.prediction, feed_dict={self.input: featureData})
                 batch_sz = batch_results.shape[0]
@@ -85,6 +89,8 @@ class Graph(object):
         except Exception as e:
             print(e)
             print('Failed to run all images')
+
+        #self.close_sess()
 
         return listPrediction
 
