@@ -20,7 +20,7 @@ def prediction_client(image_message):
 if __name__ == "__main__":
     #creer image_message
     bridge = CvBridge()
-    cv_image = cv2.imread("/home/walking/catkin_ws/src/gender_age_service/src/image/olivier.jpg")
+    cv_image = cv2.imread("/home/quentin/sara_ws/src/gender-age-classification/src/image/image.jpg")
     #np_image_data = np.asarray(cv_image)
     image_message = bridge.cv2_to_imgmsg(cv_image, encoding="passthrough")
 
