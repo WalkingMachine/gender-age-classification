@@ -1,1 +1,6 @@
 src/detected_faces/
+*.pyc
+src/ageWeights
+src/freeze_graph
+src/genderWeights
+
